@@ -1,28 +1,40 @@
 #include<bits/stdc++.h>
 using namespace std;
-int n,ret,temp;
-vector<int>v;
+int a[9];
+int n =9,r = 7;
+
+
+void solve(){
+	int sum =0;
+	for(int i=0;i<r;i++){
+		sum+=a[i];
+	}if(sum==100){
+		sort(a,a+7);
+		for(int i=0;i<r;i++) cout<<a[i]<<'\n';
+		exit(0);
+	}
+}
+
+void makePermutation(int n,int r,int depth){
+	if(r==depth){
+		solve();
+		return;
+	}
+	for(int i=depth;i<n;i++){
+		swap(a[i],a[depth]);
+		makePermutation(n,r,depth+1);
+		swap(a[i],a[depth]);
+	}
+	return;
+}
 
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);cout.tie(0);
 	
 	for(int i=0;i<9;i++){
-		cin>>temp;
-		v.push_back(temp);
+		cin>>a[i];
 	}
 	
-	sort(v.begin(),v.end());
-	
-	do{
-		int sum =0;
-		for(int i=0;i<7;i++){
-			sum+=v[i];
-		}
-		if(sum==100) break;	
-	}while(next_permutation(v.begin(),v.end()));
-	
-	for(int i=0;i<7;i++){
-		cout<<v[i]<<'\n';
-	}
+	makePermutation(n,r,0);
 }
