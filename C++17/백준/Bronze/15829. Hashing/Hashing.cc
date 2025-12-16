@@ -1,17 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 long long ret,n,temp;
-string s;
 char c;
-int arr[26];
+long long MOD = 1234567891;
 
 int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);cout.tie(0);
 	cin>>n;
+	
+	long long hash = 0;
+	long long power = 1;
+	
 	for(int i=0;i<n;i++){
 		cin>>c;
-		temp = pow(31,i)*(c-96);
-//		cout<<temp<<' ';
-		ret+=temp;
+		hash = (hash+(c-'a'+1) *power) %MOD;
+		power = (power*31)%MOD;
 	}
-	cout<<ret;
+	cout<<hash;
+	
 }
