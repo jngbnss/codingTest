@@ -3,16 +3,16 @@ using namespace std;
 typedef long long ll;
 ll a,b,c,ret;
 
-ll mod(ll a, ll b, ll c){
-	if(b==0) return 1;
-	ll half = mod(a,b/2,c);
-	ret = (half*half)%c;
-	if(b%2) ret = (ret*a)%c;
+ll go(ll a,ll b){
+	if(b==1) return a%c;
+	ret = go(a,b/2);
+	ret = (ret%c)*(ret%c)%c;
+	if(b%2) ret = (ret%c)*(a%c)%c;
+	
 	return ret;
 }
 
-
 int main(){
 	cin>>a>>b>>c;
-	cout<<mod(a,b,c);
+	cout<<go(a,b);
 }
