@@ -1,14 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-ll a,b,c,ret;
+long long a,b,c,ret;
 
-ll go(ll a,ll b){
-	if(b==1) return a%c;
+long long go(long long a,long long b){
+	if (b==1) return a%c;
 	ret = go(a,b/2);
-	ret = (ret%c)*(ret%c)%c;
-	if(b%2) ret = (ret%c)*(a%c)%c;
-	
+	ret = (ret*ret)%c;
+	if(b%2) ret = ret*a%c;
 	return ret;
 }
 
