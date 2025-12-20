@@ -33,8 +33,7 @@ int main(){
 		ll newStart = v[i].first;
 		ll newEnd = v[i].second;
 		
-		if(newStart<next&&next>=newEnd) continue;
-		else if(newStart<= next&&next<newEnd){
+		if(newStart<= next&&next<newEnd){
 			next = newEnd;
 		}
 		else if(next<newStart){
