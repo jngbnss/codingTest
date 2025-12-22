@@ -17,7 +17,7 @@ int main(){
 				cout<<mid<<'\n';
 				break;
 			}
-			else if(mid<=n){
+			else if(mid<n){
 				cout<<mid<<' ';
 				a = mid+1;
 			}
