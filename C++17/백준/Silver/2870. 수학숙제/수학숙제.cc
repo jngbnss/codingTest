@@ -1,48 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
-
 int n;
-string s;
 vector<string>v;
-
-bool cmp(string a, string b){
-	if(a.size()==b.size()){
-		return a<b;
-	}
+string s,ret;
+void go(){
+	while(true){
+		if(ret.size()&&ret.front()=='0')ret.erase(ret.begin());
+		else break;
+	}if(ret.size()==0)ret="0";
+	v.push_back(ret);
+	ret="";
+}
+bool cmp(string a,string b){
+	if(a.size()==b.size()) return a<b;
 	return a.size()<b.size();
 }
 
-string check(string temp){
-	int i =0;
-	while(i<temp.size()&&temp[i] =='0') i++;
-	if(i==temp.size()) return "0";
-	return temp.substr(i);
-}
 int main(){
 	cin>>n;
 	while(n--){
 		cin>>s;
-		//bool check = false;
-		string temp ="";
+		ret="";
 		for(int i=0;i<s.size();i++){
-			if(isdigit(s[i])){	
-				temp+=s[i];
-				//check = true;
-			}
-			else{
-				if(temp!=""){
-					string ret = check(temp);
-					v.push_back(ret);
-				}
-				temp="";
-			}	
+			if(s[i]<65) ret+=s[i];
+			else if(ret.size()) go();
 		}
-		if(temp!=""){
-			string ret = check(temp);
-			v.push_back(ret);
-		}
+		if(ret.size()) go();
 	}
 	sort(v.begin(),v.end(),cmp);
 	for(auto i:v) cout<<i<<'\n';
 }
-			
