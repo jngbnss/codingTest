@@ -1,40 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
-const int mx = 104;
-int n,m;
-char arr[mx][mx];
-int visited[mx][mx];
+int n,m,a[104][104];
 string s;
-
 int main(){
 	cin>>n>>m;
-	
-	memset(visited,-1,sizeof(visited));
 	for(int i=0;i<n;i++){
 		cin>>s;
 		for(int j=0;j<m;j++){
-			arr[i][j] = s[j];
-			if(arr[i][j] =='c') visited[i][j]=0;
+			if(s[j]=='.') a[i][j] = -1;
+			else a[i][j] = 0;
 		}
 	}
 	
 	for(int i=0;i<n;i++){
-		int cnt =0;
-		bool check = false;
 		for(int j=0;j<m;j++){
-			
-			if(check&&visited[i][j]==-1){
-				visited[i][j]=cnt++;
+			if(a[i][j] ==0){
+				int cnt =1;
+				while(a[i][j+1]==-1){
+					a[i][j+1] = cnt++;
+					j++;
+				}
 			}
-			else if(visited[i][j]==0){
-				cnt=0;
-				cnt++;
-				check = true;
-			}
-			cout<<visited[i][j]<<' ';
-		}cnt = 0;
-		cout<<'\n';
+		}
 	}
 	
+	for(int i=0;i<n;i++){
+		for(int j=0;j<m;j++){
+			cout<<a[i][j]<<' ' ;
+		}cout<<'\n';
+	}
 }
-	
