@@ -1,47 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
-int n,temp,ret,m;
-int visited[54];
-vector<int>v[54];
-
-void dfs(int start,int pass){
+int n,temp,m,ret;
+int root;
+int visited[55];
+vector<int>v[55];
+void dfs(int now){
 	bool check = true;
-	
-	for(int next:v[start]){
-		if(next==pass) continue;
+	visited[now] = 1;
+//	if(now==m) return;
+	for(auto i:v[now]){
+		if(i==m) continue;
 		check = false;
-		dfs(next,pass);
+		if(!visited[i]){
+			dfs(i);
+		}
 	}
 	if(check) ret++;
 }
-//	visited[start] =0;
-//	if(start == pass) return;
-//	
-//	
-//	for(auto i:v[start]){
-//		if(i==pass) continue;
-//		if(!visited[i]){
-//			check = true;
-//			dfs(i,pass);
-//		}
-//		if(!check) ret++;
-//	}
-//}
-	
 int main(){
 	cin>>n;
-	int root;
+//	int visited[n];
+//	memset(visited,0,sizeof(visited));
+	
 	for(int i=0;i<n;i++){
 		cin>>temp;
-		if(temp==-1) root =i;
-		v[temp].push_back(i);
-//		v[i].push_back(temp);
+		if(temp==-1) root=i;
+		else v[temp].push_back(i);
 	}
+	
 	cin>>m;
 	if(m==root){
 		cout<<0;
-	}else{
-		dfs(root,m);
-		cout<<ret;
+		return 0;
 	}
+	dfs(root);
+	cout<<ret;
 }
