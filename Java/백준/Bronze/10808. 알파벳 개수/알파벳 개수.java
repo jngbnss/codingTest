@@ -1,18 +1,17 @@
-// package algorithm.week1.B10808;
-
-import java.util.Scanner;
-
+//package d260101.q10808;
+import java.io.*;
+import java.util.*;
 public class Main {
-    public static void main(String[] args) {
-        int[] arr = new int[26];
-        Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        int []arr = new int[26];
         for (int i = 0; i < s.length(); i++) {
-            //System.out.println(s.charAt(i));
-            arr[s.charAt(i)-'a']++;
+            arr[s.charAt(i)-97]++;
         }
-        for (int i : arr) {
-            System.out.print(i+" ");
+        for (int i = 0; i < 26; i++) {
+            System.out.print(arr[i]+" ");
         }
+
     }
 }
