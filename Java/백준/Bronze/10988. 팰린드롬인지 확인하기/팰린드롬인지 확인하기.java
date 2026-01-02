@@ -1,18 +1,18 @@
-//package algorithm.week1.D10988;
 
-import java.util.Scanner;
-
+import java.io.*;
+import java.util.*;
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
-        StringBuilder stringBuilder = new StringBuilder(s);
-        String s1 = stringBuilder.reverse().toString();
-
-        if (s1.equals(s)) {
-            System.out.println(1);
-        } else {
-            System.out.println(0);
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        int ret = 0;
+        StringBuilder sb = new StringBuilder();
+        for(int i=s.length()-1;i>=0;i--){
+            sb.append(s.charAt(i));
         }
+//        System.out.println(sb.toString());
+        if(s.equals(sb.toString())) ret = 1;
+        System.out.println(ret);
     }
 }
+
