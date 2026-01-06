@@ -1,22 +1,20 @@
-//package algorithm.map.q3052;
-
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        Scanner scanner = new Scanner(System.in);
-        for(int i=0;i<10;i++){
-            int nextInt = scanner.nextInt();
-            map.put(nextInt%42,1);
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] arr = new int[42];
+
+        for (int i = 0; i < 10; i++) {
+            int n = Integer.parseInt(br.readLine());
+            arr[n%42]++;
         }
-        int result =0;
-        for (Integer key : map.keySet()) {
-            if(map.get(key)>0){
-                result++;
-            }
+        int ret =0;
+        for (int i : arr) {
+            if(i!=0)ret++;
         }
-        System.out.println(result);
+        System.out.println(ret);
+
     }
 }
