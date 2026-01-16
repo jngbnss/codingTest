@@ -1,25 +1,23 @@
-//package algorithm.stack.q9012;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int nextInt = scanner.nextInt();
-        scanner.nextLine();
-        for (int j = 0; j < nextInt; j++) {
-            String line = scanner.nextLine();
-            Deque<Character> stack = new ArrayDeque<>();
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        while(n-->0){
+            String line = br.readLine();
+            ArrayDeque<Object> stack = new ArrayDeque<>();
             for (int i = 0; i < line.length(); i++) {
-                if(line.charAt(i)=='('){
-                    stack.push('(');
+                char c = line.charAt(i);
+                if(c=='('){
+                    stack.push(c);
                 }else{
-                    if(stack.isEmpty()||stack.peek()==')'){
-                        stack.push(')');
-                    }else if(!stack.isEmpty()&&stack.peek()=='('){
+                    if(!stack.isEmpty()&& stack.peek().equals('(')){
                         stack.pop();
+                    }
+                    else{
+                        stack.push(c);
                     }
                 }
             }
@@ -28,7 +26,6 @@ public class Main {
             }else{
                 System.out.println("NO");
             }
-
         }
     }
 }
