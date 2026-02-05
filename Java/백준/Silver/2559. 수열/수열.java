@@ -1,24 +1,32 @@
-//package baekjoon.q2559;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class Main {
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int []arr = new int[n+4];
-        StringTokenizer st1 = new StringTokenizer(br.readLine());
-        for (int i = 1; i <=n; i++) {
-            int x = Integer.parseInt(st1.nextToken());
-            arr[i] = arr[i-1]+x;
+        int k = Integer.parseInt(st.nextToken());
+
+        int[] arr = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for(int i=0;i<n;i++){
+
+            arr[i] = Integer.parseInt(st.nextToken());
+
         }
-        int ret = -10000004;
-        for(int i=m;i<=n;i++){
-            ret = Math.max(ret,arr[i]-arr[i-m]);
+        int currentSum =0;
+        for(int i=0;i<k;i++){
+            currentSum+=arr[i];
         }
-        System.out.println(ret);
+        int maxVal = currentSum;
+
+        for(int i=k;i<n;i++){
+            currentSum = currentSum+arr[i] - arr[i-k];
+            maxVal = Math.max(maxVal,currentSum);
+        }
+        System.out.println(maxVal);
     }
 }
-
