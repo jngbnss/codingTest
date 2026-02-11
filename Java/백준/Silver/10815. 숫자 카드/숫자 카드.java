@@ -1,26 +1,27 @@
-// package algorithm.map.q10815;
-
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
         HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            int nextInt = scanner.nextInt();
-            map.put(nextInt,1);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i=0;i<n;i++){
+            int x = Integer.parseInt(st.nextToken());
+            map.put(x,map.getOrDefault(x,0)+1);
         }
-        int m = scanner.nextInt();
-        for (int i = 0; i <m; i++) {
-            int next = scanner.nextInt();
-            if(map.containsKey(next)){
-                System.out.print(1+" ");
-            }else{
-                System.out.print(0+" ");
+        int m = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        st = new StringTokenizer(br.readLine());
+        for(int i=0;i<m;i++){
+            int x = Integer.parseInt(st.nextToken());
+            if(map.get(x) == null){
+                sb.append(0).append(" ");
             }
+            else sb.append(1).append(" ");
 
         }
+        System.out.println(sb.toString());
     }
 }
