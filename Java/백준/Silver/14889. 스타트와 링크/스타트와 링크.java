@@ -55,13 +55,12 @@ public class Main {
             ret = Math.min(ret, temp);
             return;
         }
-        if(idx==n) return;
 
         // 조합 진행하는데 절반씩 하는거지 // list해서 절반만넘기자
         for (int i = idx; i < n; i++) {
-            if(visited[i]==0){
+            if (visited[i] == 0) {
                 visited[i] = 1;
-                go(i,cnt+1);
+                go(i, cnt + 1);
                 visited[i] = 0;
             }
         }
