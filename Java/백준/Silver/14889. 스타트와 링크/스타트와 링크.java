@@ -37,18 +37,14 @@ public class Main {
                     link.add(i);
                 }
             }
-            for (int i = 0; i < start.size(); i++) {
-                for (int j = i + 1; j < start.size(); j++) {
-                    Integer start1 = start.get(i);
-                    Integer start2 = start.get(j);
-                    sumA += arr[start1][start2] + arr[start2][start1];
-                }
-            }
-            for (int i = 0; i < link.size(); i++) {
-                for (int j = i + 1; j < link.size(); j++) {
-                    Integer start1 = link.get(i);
-                    Integer start2 = link.get(j);
-                    sumB += arr[start1][start2] + arr[start2][start1];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (visited[i] == 1 && visited[j] == 1) {
+                        sumA += arr[i][j];
+                    }
+                    if (visited[i] == 0 && visited[j] == 0) {
+                        sumB += arr[i][j];
+                    }
                 }
             }
             int temp = Math.abs(sumA - sumB);
@@ -60,7 +56,7 @@ public class Main {
         for (int i = idx; i < n; i++) {
             if (visited[i] == 0) {
                 visited[i] = 1;
-                go(i, cnt + 1);
+                go(i + 1, cnt + 1);
                 visited[i] = 0;
             }
         }
