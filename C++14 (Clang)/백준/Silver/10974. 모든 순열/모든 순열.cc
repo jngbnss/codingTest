@@ -1,31 +1,30 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <algorithm> // next_permutation 포함
 
 using namespace std;
 
-int n,arr[9],visited[9];
+int main() {
+    // 입출력 속도 향상
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-void go(int idx){
-	if(idx==n){
-		for(int i=0;i<n;i++){
-			cout<<arr[i]<<' ';
-		}cout<<'\n';
-		return;
-	}
-	
-	for(int i=1;i<=n;i++){
-		if(!visited[i]){
-			visited[i] = 1;
-			arr[idx] = i;
-			go(idx+1);
-			visited[i] = false;
-		}
-	}
-}
+    int N;
+    cin >> N;
 
-int main(){
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	cin>>n;
-	go(0);
+    vector<int> v(N);
+    for (int i = 0; i < N; i++) {
+        v[i] = i + 1; // 1부터 N까지 채우기
+    }
+
+    // next_permutation은 사전 순으로 다음 순열을 생성하며, 
+    // 마지막 순열에 도달하면 false를 반환합니다.
+    do {
+        for (int i = 0; i < N; i++) {
+            cout << v[i] << " ";
+        }
+        cout << "\n";
+    } while (next_permutation(v.begin(), v.end()));
+
+    return 0;
 }
