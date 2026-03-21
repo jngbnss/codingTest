@@ -3,34 +3,29 @@
 
 using namespace std;
 
-int n,temp;
-int visited[1004];
-vector<int>v,ret;
+int n,arr[9],visited[9];
 
 void go(int idx){
 	if(idx==n){
-		for(auto i:ret){
-			cout<<i<<" ";
+		for(int i=0;i<n;i++){
+			cout<<arr[i]<<' ';
 		}cout<<'\n';
 		return;
 	}
-	for(int i=0;i<n;i++){
+	
+	for(int i=1;i<=n;i++){
 		if(!visited[i]){
 			visited[i] = 1;
-			ret.push_back(i+1);
+			arr[idx] = i;
 			go(idx+1);
-			ret.pop_back();
-			visited[i] =0;
+			visited[i] = false;
 		}
 	}
 }
 
 int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	cin>>n;
-	
-	for(int i=0;i<n;i++){
-		v.push_back(i+1);
-	}
-	
 	go(0);
 }
