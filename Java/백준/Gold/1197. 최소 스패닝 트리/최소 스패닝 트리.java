@@ -41,14 +41,20 @@ public class Main {
             root[i] = i;
         }
 
+        int cnt = 0;
         for(int i=0;i<list.size();i++){
+            
             Node node = list.get(i);
             int from = node.from;
             int to = node.to;
             int w = node.w;
             if(find(from)!=find(to)){
+                cnt++;
                 uion(from,to);
                 ret+=w;
+            }
+            if(cnt==n-1){
+                break;
             }
         }
         System.out.println(ret);
