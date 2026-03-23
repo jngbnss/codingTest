@@ -1,71 +1,97 @@
 import java.io.*;
 import java.util.*;
+
 public class Main {
-    static int v,e;
-    static int a,b,c;
-    static int [] root;
-    public static void main(String[] args) throws IOException{
+    static int n, m;
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        v = Integer.parseInt(st.nextToken());
-        e = Integer.parseInt(st.nextToken());
-        root = new int[v+1];
-        for(int i=0;i<v+1;i++){
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        root = new int[n + 1];
+
+
+        for (int i = 0; i <= n; i++) {
             root[i] = i;
         }
 
-        list = new ArrayList<>();
+//        list = new ArrayList[n + 1];
+//
+//        visited = new int[n + 1];
+//
+//        for (int i = 0; i <= n; i++) {
+//            list[i] = new ArrayList<>();
+//        }
 
 
-        for(int i=0;i<e;i++){
+
+        //pq하면서 연결하고 다 방문하면 끝?
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            a = Integer.parseInt(st.nextToken());
-            b = Integer.parseInt(st.nextToken());
-            c = Integer.parseInt(st.nextToken());
-            list.add(new Edge(a,b,c));
-
+            int from = Integer.parseInt(st.nextToken());
+            int to = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+//            list[from].add(new Edge(from,to, w));
+            pq.offer(new Edge(from,to,w));
+            // 연결했다 치고
         }
-        Collections.sort(list);
 
-        int total = 0;
-        int cnt = 0;
-        for(Edge edge:list){
-            if(find(edge.e1)!=find(edge.e2)){
-                union(edge.e1,edge.e2);
-                total+=edge.cost;
-                cnt++;
-                if(cnt==v-1) break;
+//        pq.offer(new Edge(1, 0));
+        int ret = 0;
+
+        while (!pq.isEmpty()) {
+            Edge poll = pq.poll();
+            int from = poll.from;
+            int to = poll.to;
+            int w = poll.w;
+
+            if(find(from)!=find(to)){
+                union(from,to);
+//                System.out.println(w);
+                ret+=w;
             }
-        }
-        System.out.println(total);
 
+        }
+        System.out.println(ret);
     }
-    static int find(int x){
-        if(x==root[x]) return x;
-        return root[x] = find(root[x]);
-    }
-    static void union(int a, int b){
+
+    static void union(int a, int b) {
         a = find(a);
         b = find(b);
-        if(a!=b){
-            root[b] = a;
+        if (a != b) {
+            root[a] = b;
         }
     }
-    static ArrayList<Edge>list;
-    static class Edge implements Comparable<Edge>{
-        int e1;
-        int e2;
-        int cost;
 
-        public Edge(int e1, int e2, int cost) {
-            this.e1 = e1;
-            this.e2 = e2;
-            this.cost = cost;
+    static int root[];
+
+    static int find(int x) {
+        if (root[x] == x) {
+            return x;
+        } else {
+            return  root[x] = find(root[x]);
+        }
+    }
+
+    // 크루스칼은 유니온파인드인데
+    static int visited[];
+    static ArrayList<Edge> list[];
+
+    static class Edge implements Comparable<Edge> {
+        int from;
+        int to;
+        int w;
+
+        public Edge(int from, int to, int w) {
+            this.from = from;
+            this.to = to;
+            this.w = w;
         }
 
         @Override
         public int compareTo(Edge o) {
-            return this.cost-o.cost;
+            return this.w - o.w;
         }
     }
 }
