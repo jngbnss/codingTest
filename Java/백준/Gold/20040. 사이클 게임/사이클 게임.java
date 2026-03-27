@@ -1,30 +1,32 @@
 import java.io.*;
 import java.sql.SQLOutput;
 import java.util.*;
+
 public class Main {
-    static int n,m;
-    static int root[],cnt[];
-    public static void main(String[] args) throws IOException{
+    static int n, m;
+    static int root[], cnt[];
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        root = new int[n+1];
-        for(int i=0;i<n+1;i++){
-            root[i] =i;
+        root = new int[n + 1];
+        for (int i = 0; i < n + 1; i++) {
+            root[i] = i;
         }
-        int ret =0;
+        int ret = 0;
         int idx = n;
         boolean flag = false;
-        for(int i=1;i<=m;i++){
+        for (int i = 1; i <= m; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            n = Integer.min(n,a);
-            n = Integer.min(n,b);
+            n = Integer.min(n, a);
+            n = Integer.min(n, b);
 
-            if(find(a)!=find(b)){
-                union(a,b);
+            if (find(a) != find(b)) {
+                union(a, b);
 
 //                if(root[a]>=i){
 //                    if(flag) continue;
@@ -34,8 +36,10 @@ public class Main {
 //                    }
 //                }
 
-            }else{
-                if(flag) continue;
+            } else {
+                if (flag) {
+                    continue;
+                }
                 ret = i;
                 flag = true;
             }
@@ -44,19 +48,17 @@ public class Main {
         System.out.println(ret);
 
     }
-    static int find(int x){
-        if(x == root[x]){
+
+    static int find(int x) {
+        if (x == root[x]) {
             return x;
         }
         return root[x] = find(root[x]);
     }
-    static void union(int a,int b){
+
+    static void union(int a, int b) {
         a = find(a);
         b = find(b);
-        if(a<b){
-            root[b] = a;
-        }else{
-            root[a] = b;
-        }
+        root[a] = b;
     }
 }
