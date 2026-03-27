@@ -41,7 +41,8 @@ public class Main {
                     continue;
                 }
                 ret = i;
-                flag = true;
+                break;
+//                flag = true;
             }
             //순환여부는 어떻게 판단하지?
         }
