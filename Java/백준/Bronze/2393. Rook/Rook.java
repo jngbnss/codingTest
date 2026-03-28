@@ -1,7 +1,8 @@
-
-
+import java.io.*;
+import java.util.*;
 public class Main {
-    public static void main(String[] args) {
+    static int n;
+    public static void main(String[] args) throws IOException{
         System.out.println("  ___  ___  ___\n"
                 + "  | |__| |__| |\n"
                 + "  |           |\n"
