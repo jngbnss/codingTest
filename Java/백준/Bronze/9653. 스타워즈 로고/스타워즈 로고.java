@@ -1,5 +1,8 @@
+import java.io.*;
+import java.util.*;
 public class Main {
-    public static void main(String[] args) {
+    static int n;
+    public static void main(String[] args) throws IOException{
         System.out.println("    8888888888  888    88888\n"
                 + "   88     88   88 88   88  88\n"
                 + "    8888  88  88   88  88888\n"
