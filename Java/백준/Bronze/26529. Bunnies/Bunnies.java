@@ -1,28 +1,40 @@
 import java.io.*;
 import java.util.*;
-import java.math.BigInteger;
 
 public class Main {
-    static int n, m;
-    static int arr[];
+    static int n;
     static long dp[];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
+//        StringTokenizer st = new StringTokenizer(br.readLine());
+//        n = Integer.parseInt(st.nextToken());
 
+        dp = new long[50];
 
-        dp = new long[10001];
-        // 0 부터 시작이긴하네
-        dp[0] = 1;
-        dp[1] = 1;
-        for (int i = 2; i <= 90; i++) {
-            dp[i] = (dp[i - 2] + dp[i - 1]);
+        for (int i = 0; i < n; i++) {
+            int k = Integer.parseInt(br.readLine());
+            go(k);
+            System.out.println(dp[k]);
         }
-        for(int i=0;i<n;i++){
-            int x = Integer.parseInt(br.readLine());
-            System.out.println(dp[x]);
-        }
-//        System.out.println(dp[n]+" "+(n-2));
     }
+
+    static long go(int k) {
+        if (k == 0) {
+            dp[k] = 1;
+            return 1;
+        }
+
+        if (k == 1) {
+            dp[k] = 1;
+            return 1;
+        }
+        if (dp[k] != 0) {
+            return dp[k];
+        }
+        return dp[k] = go(k - 1) + go(k - 2);
+
+    }
+
 }
