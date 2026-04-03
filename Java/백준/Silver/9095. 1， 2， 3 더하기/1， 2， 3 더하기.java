@@ -2,30 +2,26 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static final int UNUSED = -1_000_001;
-    static int n;
-    static int memo[];
+    static int n, t;
+
+    static long memo[];
 
     public static void main(String[] args) throws IOException {
-        /**
-         * 설계다하고 진행하자
-         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
+        t = Integer.parseInt(br.readLine());
 //        StringTokenizer st = new StringTokenizer(br.readLine());
 //        n = Integer.parseInt(st.nextToken());
 
-        memo = new int[12];
-        Arrays.fill(memo, UNUSED);
-        for (int i = 0; i < n; i++) {
-            int x = Integer.parseInt(br.readLine());
-            System.out.println(dp(x));
-        }
+        memo = new long[1000004];
+        Arrays.fill(memo, 100000);
 
+        for (int i = 0; i < t; i++) {
+            int n = Integer.parseInt(br.readLine());
+            System.out.println(dp(n));
+        }
     }
 
-    static int dp(int idx) {
-        //기저사례
+    static long dp(int idx) {
         if (idx == 1) {
             return memo[idx] = 1;
         }
@@ -33,16 +29,14 @@ public class Main {
         if (idx == 2) {
             return memo[idx] = 2;
         }
-
         if (idx == 3) {
             return memo[idx] = 4;
         }
 
-        if (memo[idx] != UNUSED) {
+        if (memo[idx] != 100000) {
             return memo[idx];
         }
 
         return memo[idx] = dp(idx - 1) + dp(idx - 2) + dp(idx - 3);
     }
-
 }
