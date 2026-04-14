@@ -2,82 +2,82 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int n, m, k, x, a, b;
-    static int visited[], dist[];
-    static ArrayList<Integer>[] list;
-
-    public static void main(String[] args) throws IOException {
+    static int n,m,k,x;
+    static int arr[],dist[],visited[];
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        StringBuilder sb = new StringBuilder();
 
-        // 도시의 개수
         n = Integer.parseInt(st.nextToken());
-        //도로의 개수
         m = Integer.parseInt(st.nextToken());
-        //거리 정보 최단거리
         k = Integer.parseInt(st.nextToken());
-        //출발 도시의 번호
         x = Integer.parseInt(st.nextToken());
-        list = new ArrayList[n + 1];
-        dist = new int[n + 1];
-        visited = new int[n + 1];
-
-        for (int i = 0; i <= n; i++) {
+        arr = new int[n+1];
+        dist = new int[n+1];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        list = new ArrayList[n+1];
+        for(int i=0;i<=n;i++){
             list[i] = new ArrayList<>();
-            dist[i] = Integer.MAX_VALUE;
-
         }
-
-        for (int i = 0; i < m; i++) {
+        for(int i=0;i<m;i++){
             st = new StringTokenizer(br.readLine());
-            a = Integer.parseInt(st.nextToken());
-            b = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            // a에서 b로 가는 녀석이니까
             list[a].add(b);
+
         }
-
-        dijk(x);
-
-//        for(int i=1;i<=n;i++){
-//            System.out.print(dist[i]+" ");
-//        }
-//        System.out.println();
-
-        boolean flag = false;
-        for (int i = 0; i <= n; i++) {
-            if (dist[i] == k) {
-                flag = true;
+        dijk(x,0);
+        StringBuilder sb = new StringBuilder();
+        for(int i=1;i<=n;i++){
+            if(dist[i]==k){
                 sb.append(i).append("\n");
             }
         }
-        if(flag) {
-            System.out.println(sb.toString());
-        }else{
+        String string = sb.toString();
+        for (int i : dist) {
+//            System.out.println(i);
+        }
+        if(string.isEmpty()){
             System.out.println(-1);
+        }else{
+            System.out.println(string);
         }
     }
-
-    static void dijk(int x) {
+    static void dijk(int x,int cost){
         dist[x] = 0;
-//        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        ArrayDeque<Integer> pq = new ArrayDeque<>();
-        pq.offer(x);
-        int idx = 1;
-        visited[x] = idx++;
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(x,cost));
 
-
-        while (!pq.isEmpty()) {
-            Integer now = pq.poll();
-            if(dist[now]>k) continue;
-
-            for (Integer i : list[now]) {
-                if(dist[i]==Integer.MAX_VALUE){
-//                    visited[i] = 1;
-                    dist[i] = dist[now]+1;
-                    pq.offer(i);
-                }
-
+        while(!pq.isEmpty()){
+            Node now = pq.poll();
+            int nowTo = now.to;
+            int nowCost = now.cost;
+            if(dist[nowTo]!=nowCost){
+                continue;
             }
+            for(Integer next:list[nowTo]){
+                int nextCost = nowCost+1;
+                if(nextCost<dist[next]){
+                    dist[next] = nextCost;
+                    pq.offer(new Node(next,nextCost));
+                }
+            }
+        }
+    }
+    static ArrayList<Integer>[]list;
+    static class Node implements Comparable<Node>{
+        int to;
+        int cost;
+
+        public Node(int to, int cost) {
+            this.to = to;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.cost- o.cost;
         }
     }
 }
