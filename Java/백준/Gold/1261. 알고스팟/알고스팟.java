@@ -41,7 +41,7 @@ public class Main {
     static void dijk(int y, int x, int cost) {
         dist[y][x] = 0;
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(y, x, arr[y][x]));
+        pq.offer(new Node(y, x, dist[y][x] ));
 
         while (!pq.isEmpty()) {
             Node poll = pq.poll();
@@ -52,7 +52,7 @@ public class Main {
             if (cost != dist[y][x]) {
                 continue;
             }
-            if (y == n && x == m) {
+            if (y == n-1 && x == m-1) {
                 return;
             }
             for (int i = 0; i < 4; i++) {
