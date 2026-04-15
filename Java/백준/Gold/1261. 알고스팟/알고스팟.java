@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static final int INF = 10_004;
+    static final int INF = 204;
     static int n, m;
     static int[][] dist;
     static int[][] arr;
