@@ -1,77 +1,94 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int M, N;
-    static int[][] map;
+    static final int INF = 10_004;
+    static int n, m;
     static int[][] dist;
-    static int[] dx = {0, 0, 1, -1};
-    static int[] dy = {1, -1, 0, 0};
+    static int[][] arr;
+    static int[] dy = {-1, 0, 1, 0};
+    static int[] dx = {0, -1, 0, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
 
-        M = Integer.parseInt(st.nextToken()); // 가로
-        N = Integer.parseInt(st.nextToken()); // 세로
-
-        map = new int[N][M];
-        dist = new int[N][M];
-
-        for (int i = 0; i < N; i++) {
+        arr = new int[n][m];
+        dist = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dist[i], INF);
+        }
+        for (int i = 0; i < n; i++) {
             String line = br.readLine();
-            for (int j = 0; j < M; j++) {
-                map[i][j] = line.charAt(j) - '0';
-                dist[i][j] = Integer.MAX_VALUE; // 최소 비용 비교를 위해 초기값 무한대
+            for (int j = 0; j < m; j++) {
+                arr[i][j] = line.charAt(j) - '0';
+
             }
         }
 
-        System.out.println(bfs(0, 0));
+        dijk(0, 0, arr[0][0]);
+        System.out.println(dist[n - 1][m - 1]);
+
+
     }
 
-    static int bfs(int x, int y) {
-        // 우선순위 큐를 사용하여 벽을 적게 부순 순서대로 정렬 (다익스트라)
+    static void dijk(int y, int x, int cost) {
+        dist[y][x] = 0;
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(x, y, 0));
-        dist[x][y] = 0;
+        pq.offer(new Node(y, x, arr[y][x]));
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
+            Node poll = pq.poll();
+            y = poll.y;
+            x = poll.x;
+            cost = poll.cost;
 
-            // 목적지에 도착했다면 현재까지 부순 벽의 개수 반환
-            if (current.x == N - 1 && current.y == M - 1) {
-                return current.cost;
+            if (cost != dist[y][x]) {
+                continue;
             }
-
+            if (y == n && x == m) {
+                return;
+            }
             for (int i = 0; i < 4; i++) {
-                int nx = current.x + dx[i];
-                int ny = current.y + dy[i];
+                int ny = y + dy[i];
+                int nx = x + dx[i];
 
-                if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
-                    // 더 적은 비용(벽 부수기)으로 해당 칸에 방문할 수 있는 경우
-                    if (dist[nx][ny] > dist[current.x][current.y] + map[nx][ny]) {
-                        dist[nx][ny] = dist[current.x][current.y] + map[nx][ny];
-                        pq.offer(new Node(nx, ny, dist[nx][ny]));
-                    }
+                if (ny < 0 || ny >= n || nx < 0 || nx >= m) {
+                    continue;
                 }
+
+                int nextCost = dist[y][x] + arr[ny][nx];
+                if (nextCost < dist[ny][nx]) {
+                    dist[ny][nx] = nextCost;
+                    pq.offer(new Node(ny, nx, nextCost));
+                }
+
             }
+
         }
-        return 0;
+
     }
 
-    // 위치와 부순 벽의 개수를 저장할 클래스
     static class Node implements Comparable<Node> {
-        int x, y, cost;
+        int y;
+        int x;
+        int cost;
 
-        Node(int x, int y, int cost) {
-            this.x = x;
+        public Node(int y, int x, int cost) {
             this.y = y;
+            this.x = x;
             this.cost = cost;
         }
 
         @Override
         public int compareTo(Node o) {
-            return this.cost - o.cost; // 비용 기준 오름차순 정렬
+            return this.cost - o.cost;
         }
     }
 }
