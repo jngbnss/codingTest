@@ -1,104 +1,116 @@
 import java.io.*;
 import java.util.*;
-//20분 53초
 
+/**
+ * 입력받고
+ * 연결하고, 안하고 해서
+ * 다 나오면 거기서 진행해보자
+ * 몰빵인가?
+ * 연결이 끊겼는가?
+ * 비교했을때 최소차이가 정답이고
+ * 만약 두 선거구로 나눌 수 없으면 -1
+ * 8:09
+ */
 public class Main {
-	static int n;
-	static ArrayList<Integer>[] list;
-	static int ret = Integer.MAX_VALUE;
-	static int[] visited;
-	static int[] populations;
+    static int n;
+    static int populations[];
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		n = Integer.parseInt(br.readLine());
-		populations = new int[n + 1];
+    static ArrayList<Integer>list[];
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for (int i = 1; i <= n; i++) {
-			populations[i] = Integer.parseInt(st.nextToken());
+        populations = new int[n+1];
 
-		}
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i=1;i<=n;i++){
+            int x = Integer.parseInt(st.nextToken());
+            populations[i] = x;
+        }
 
-		list = new ArrayList[n + 1];
-		visited = new int[n + 1];
-		for (int i = 1; i <= n; i++) {
-			list[i] = new ArrayList<>();
-			st = new StringTokenizer(br.readLine());
-			int m = Integer.parseInt(st.nextToken());
-			for (int j = 0; j < m; j++) {
-				list[i].add(Integer.parseInt(st.nextToken()));
-			}
-		}
+        list = new ArrayList[n+1];
 
-		go(1);
-		System.out.println(ret == Integer.MAX_VALUE ? -1 : ret);
-	}
+        for(int i=1;i<=n;i++){
+            list[i] = new ArrayList<>();
+            st = new StringTokenizer(br.readLine());
+            int countOfSector = Integer.parseInt(st.nextToken());
+            for(int j=0;j<countOfSector;j++){
+                list[i].add(Integer.parseInt(st.nextToken()));
+                // 이건 연결 되어있는지 확인할때 쓰는거니까
+            }
 
-	static void go(int idx) {
-		
-		if (idx == n + 1) {
-			
-			ArrayList<Integer> listA = new ArrayList<Integer>();
-			ArrayList<Integer> listB = new ArrayList<Integer>();
-			
-			
-			for (int i = 1; i <= n; i++) {
-				if (visited[i] == 1) {
-					listA.add(i);
-				} else {
-					listB.add(i);
-				}
-			}
-			// 비어있는 거 x
-			if (listA.isEmpty() || listB.isEmpty())
-				return;
+        }
+        count = new boolean[n+1];
+        // 카운트 불리언 배열로 이번 구역나눌때 포함하냐 마냐로 구성할것
+        go(1);
+        System.out.println(ret==Integer.MAX_VALUE?-1:ret);
 
-			if (!isCon(listA) || !isCon(listB))
-				return;
+    }
+    static boolean count[];
+    static int ret = Integer.MAX_VALUE;
+    static boolean isCon(ArrayList<Integer> team){
+        int cnt = 1;
+        int localVisited[] = new int[n+1];
+        Integer i = team.get(0);
+        localVisited[i] = 1;
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        q.offer(i);
+        while(!q.isEmpty()){
+            Integer now = q.poll();
+            for (Integer next : list[now]) {
+                if(localVisited[next]==0&&team.contains(next)){
+                    cnt++;
+                    localVisited[next] = 1;
+                    q.offer(next);
+                }
+            }
+        }
+        return cnt==team.size();
+    }
+    static void go(int idx){
+        if(idx==n+1){
+            ArrayList<Integer> teamA = new ArrayList<>();
+            ArrayList<Integer> teamB = new ArrayList<>();
+            for(int i=1;i<=n;i++){
+                if(count[i] ==true){
+                    teamA.add(i);
+                }else{
+                    teamB.add(i);
+                }
+            }
+            // 카운트로 a랑 b구분했으니까
 
-			cal();
-			return;
+            // 몰빵인가?
+            if(teamA.isEmpty()||teamB.isEmpty()){
+                return;
+            }
 
-		}
-		visited[idx] = 1;
-		go(idx + 1);
-		visited[idx] = 0;
-		go(idx + 1);
-	}
+            // 연결이 잘 되어있는가?
 
-	static boolean isCon(ArrayList<Integer> sublist) {
-		int size = sublist.size();
-		int cnt = 1;
-		boolean v[] = new boolean[n + 1];
-		ArrayDeque<Integer> q = new ArrayDeque<Integer>();
-		q.offer(sublist.get(0));
-		v[sublist.get(0)] = true;
+            if(isCon(teamA)&&isCon(teamB)){
+                // -1 인가 아니면 차이를 구하자
+                int popA = 0;
+                int popB =0;
+                for (int i = 0; i < teamA.size(); i++) {
+                    Integer i1 = teamA.get(i);
+                    popA+=populations[i1];
+                }
+                for (int i = 0; i < teamB.size(); i++) {
+                    Integer i1 = teamB.get(i);
+                    popB+=populations[i1];
+                }
+                int temp = Math.abs(popA-popB);
+                ret = Math.min(temp,ret);
 
-		while (!q.isEmpty()) {
-			Integer now = q.poll();
+            }
+            return;
+        }
+        count[idx]= false;
+        go(idx+1);
+        count[idx]= true;
+        go(idx+1);
 
-			for (int next : list[now]) {
-				if (!v[next] && sublist.contains(next)) {
-					v[next] = true;
-					cnt++;
-					q.offer(next);
-				}
-			}
-		}
 
-		return cnt == size;
-	}
 
-	static void cal() {
-		int sumA = 0;
-		int sumB = 0;
-		for (int i = 1; i <= n; i++) {
-			if (visited[i] == 1) {
-				sumA += populations[i];
-			} else
-				sumB += populations[i];
-		}
-		ret = Math.min(ret, Math.abs(sumA - sumB));
-	}
+    }
 }
