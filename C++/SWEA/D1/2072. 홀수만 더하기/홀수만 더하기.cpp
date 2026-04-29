@@ -1,21 +1,23 @@
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
+int t,n,ret;
+
 int main(){
-	int t;
-	cin>>t;
-	int cnt = 1;
-	while(t--){
-		int sum = 0;
-		int temp;
-		for(int i=0;i<10;i++){
-			cin>>temp;
-			if(temp%2!=0){
-				sum+=temp;
-			}
-		}
-		cout<<"#"<<cnt<<' '<<sum<<'\n';
-		cnt++;
-	}
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin>>t;
+    int idx = 1;
+    while(t--){
+        ret = 0;
+        for(int i=0;i<10;i++){
+            int n;
+            cin>>n;
+            if(n%2!=0){
+                ret+=n;
+            }
+        }
+        cout<<"#"<<idx++<<" "<<ret<<'\n';
+
+    }
 }
-			
-			
