@@ -1,11 +1,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
 
 string solution(string my_string) {
-    string answer = my_string;
-    reverse(answer.begin(),answer.end());
+    string answer = "";
+    reverse(my_string.begin(),my_string.end());
+    answer = my_string;
     return answer;
 }
