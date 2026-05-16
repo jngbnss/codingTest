@@ -5,16 +5,14 @@ using namespace std;
 
 vector<int> solution(vector<int> num_list) {
     vector<int> answer;
-    int even = 0;
-    int odd = 0;
-    for(auto i : num_list){
+    int temp=0;
+    for(auto i:num_list){
         if(i%2==0){
-            even++;
-        }else{
-            odd++;
+            temp++;
         }
     }
-    answer.push_back(even);
-    answer.push_back(odd);
+    
+            answer.push_back(temp);
+    answer.push_back(num_list.size()-temp);
     return answer;
 }
