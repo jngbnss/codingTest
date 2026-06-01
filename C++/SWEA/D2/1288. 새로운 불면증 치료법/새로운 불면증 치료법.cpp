@@ -1,54 +1,31 @@
 #include<iostream>
+#include<string>
+
 using namespace std;
-int testCase,n,ret;
-int arr[10];
+
 int main(){
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);cout.tie(0);
-	cin>>testCase;
-	for(int tc = 1;tc<=testCase;tc++){
-		cout<<"#"<<tc<<" ";
-		
-		for(int i=0;i<10;i++){
-			arr[i] = 0;
-		}
-		
+	int testcase;
+	cin>>testcase;
+	
+	int total = (1<<10)-1;
+	
+	for(int i=1;i<=testcase;i++){
+		int n;
 		cin>>n;
-		
-		int idx = 1;
-		int temp = n;
-		bool flag = false;
+		int visited = 0;
+		int count = 0;
 		
 		while(true){
-			if(flag){
-				ret = n*(idx-1);
+			string s = to_string(n*(++count)); // n*count 값을 문자열로 표현한 것 
+			for(char c:s){
+				int num = c-'0';
+				visited |= (1<<num); // 각 숫자에 대해 등장했다는 의미로 bit를 1로 변경
+			}
+			if(visited==total) // 모든 숫자가 등장 했다면, 종료
 				break;
-			}
-//			cout<<'\n';
-			temp = n*idx++;
-//			cout<<temp;	
-			
-			//logic
-			while(temp>0){
-				arr[temp%10]++;
-				temp/=10;
-			}
-			
-			for(int i=0;i<10;i++){
-				flag = true;
-				if(arr[i] == 0){
-					flag = false;
-					break;
-				}
-			}
-			
 		}
-//		cout<<'\n';
-//		cout<<"================\n";
-//		for(int i=0;i<10;i++){
-//			cout<<arr[i]<<' ';
-//		}
 		
-		cout<<ret<<'\n';
+		cout<<"#"<<i<<' '<<n*count<<'\n';
 	}
+	return 0;
 }
