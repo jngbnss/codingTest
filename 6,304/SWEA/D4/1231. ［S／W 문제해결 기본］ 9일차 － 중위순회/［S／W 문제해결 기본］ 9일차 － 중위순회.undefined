@@ -1,0 +1,62 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+char tree[101];
+int leftChild[101];
+int rightChild[101];
+
+void inorder(int now) {
+    if (now == 0) return;
+
+    inorder(leftChild[now]);
+    cout << tree[now];
+    inorder(rightChild[now]);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    for (int tc = 1; tc <= 10; tc++) {
+        int n;
+        cin >> n;
+        cin.ignore();
+
+        // 매 테스트케이스마다 초기화 필수
+        for (int i = 0; i <= 100; i++) {
+            tree[i] = '\0';
+            leftChild[i] = 0;
+            rightChild[i] = 0;
+        }
+
+        for (int i = 0; i < n; i++) {
+            string line;
+            getline(cin, line);
+
+            stringstream ss(line);
+
+            int idx;
+            char value;
+
+            ss >> idx >> value;
+
+            tree[idx] = value;
+
+            if (ss >> leftChild[idx]) {
+                // 왼쪽 자식 있음
+            }
+
+            if (ss >> rightChild[idx]) {
+                // 오른쪽 자식 있음
+            }
+        }
+
+        cout << "#" << tc << " ";
+        inorder(1);
+        cout << '\n';
+    }
+
+    return 0;
+}
